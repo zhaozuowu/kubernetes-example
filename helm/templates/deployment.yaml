@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{ .Values.front.nameOverride }}
+spec:
+  replicas:  {{ .Values.front.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.front.nameOverride }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.front.nameOverride }}
+    spec:
+      containers:
+        - name: {{ .Values.front.nameOverride }}
+          image: {{ .Values.front.image.repository }}:{{ .Values.front.image.tag }}
+          resources:
+            requests:
+              memory: {{ .Values.front.resources.requests.memory }}
+              cpu: {{ .Values.front.resources.requests.cpu }}
+
+            limits:
+              memory: {{ .Values.front.resources.limits.memory }}
+              cpu: {{ .Values.front.resources.limits.cpu }}
+          ports:
+            - containerPort: {{ .Values.front.dep.port }}
+
+
+---
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  {{ .Values.backend.nameOverride }}
+spec:
+  replicas:  {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend.nameOverride }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend.nameOverride }}
+    spec:
+      containers:
+        - name: {{ .Values.backend.nameOverride }}
+          image: {{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}
+          resources:
+            requests:
+              memory: {{ .Values.backend.resources.requests.memory }}
+              cpu: {{ .Values.backend.resources.requests.cpu }}
+
+            limits:
+              memory: {{ .Values.backend.resources.limits.memory }}
+              cpu: {{ .Values.backend.resources.limits.cpu }}
+          ports:
+            - containerPort: {{ .Values.backend.dep.port }}
+
+
+
+
+
+
+
+
+
+
